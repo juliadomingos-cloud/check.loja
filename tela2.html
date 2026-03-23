@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CheckLoja</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    display:flex;
+    height:100vh;
+    background:#141a3a;
+    color:white;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:250px;
+    background:linear-gradient(#6c79db,#7a2cbf);
+    display:flex;
+    flex-direction:column;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:20px;
+    border-bottom:1px solid rgba(255,255,255,0.3);
+}
+
+.profile i{
+    font-size:40px;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu li{
+    padding:15px 20px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    border-bottom:1px solid rgba(255,255,255,0.2);
+    cursor:pointer;
+}
+
+.menu li:hover{
+    background:rgba(255,255,255,0.15);
+}
+
+.exit-item{
+    padding:15px 20px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    border-top:1px solid rgba(255,255,255,0.2);
+    cursor:pointer;
+}
+
+.exit-item:hover{
+    background:rgba(255,255,255,0.15);
+}
+
+/* MAIN */
+.main{
+    flex:1;
+    padding:20px 40px;
+    display:flex;
+    flex-direction:column;
+}
+
+.header{
+    display:flex;
+    justify-content:flex-end;
+    font-size:28px;
+    color:#8fa0ff;
+}
+
+.content{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.content h1{
+    font-weight:400;
+    margin-bottom:50px;
+    line-height:1.6;
+}
+
+.card{
+    width:360px;
+    height:200px;
+    background:linear-gradient(135deg,#9a86ff,#5b89ff);
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+}
+
+.card i{
+    font-size:40px;
+}
+
+.card h2{
+    font-size:22px;
+}
+
+.card span{
+    font-size:12px;
+    letter-spacing:3px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <div class="profile">
+        <i class="fas fa-user-circle"></i>
+        <span id="nomeUsuario">Nome...</span>
+    </div>
+
+    <ul class="menu" id="menuLista">
+        <!-- MENU GERADO VIA JS -->
+    </ul>
+
+    <div class="exit-item"><i class="fas fa-sign-out-alt"></i> Sair</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <div class="header">CheckLoja</div>
+
+    <div class="content">
+
+        <h1 id="mensagem"></h1>
+
+        <div class="card">
+            <i class="fas fa-lock"></i>
+            <h2>CheckLoja</h2>
+            <span>ONLINE STORE</span>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- JAVASCRIPT COM MÓDULO -->
+<script type="module">
+
+/* =========================
+   JSON (SIMULADO)
+========================= */
+const dados = {
+    usuario: "Maria",
+    mensagem: "Bem vindos(a) à loja segura online\nAqui você pode fazer suas compras\nsem preocupações",
+    menu: [
+        { nome: "Lojas confiáveis", icone: "fa-lock" },
+        { nome: "Dicas para ajudar", icone: "fa-lightbulb" },
+        { nome: "Fale conosco", icone: "fa-comment" },
+        { nome: "Favoritos", icone: "fa-heart" },
+        { nome: "Notificações", icone: "fa-bell" },
+        { nome: "Denúncia", icone: "fa-exclamation-triangle" }
+    ]
+};
+
+/* =========================
+   FUNÇÃO (MÓDULO)
+========================= */
+function carregarDados(){
+    return dados;
+}
+
+/* =========================
+   GERAR PÁGINA DINAMICAMENTE
+========================= */
+const nomeUsuario = document.getElementById("nomeUsuario");
+const menuLista = document.getElementById("menuLista");
+const mensagem = document.getElementById("mensagem");
+
+const info = carregarDados();
+
+nomeUsuario.textContent = info.usuario;
+mensagem.innerHTML = info.mensagem.replace(/\n/g,"<br>");
+
+info.menu.forEach(item => {
+    const li = document.createElement("li");
+
+    li.innerHTML = `<i class="fas ${item.icone}"></i> ${item.nome}`;
+
+    /* =========================
+       EVENTO DE CLIQUE
+    ========================= */
+    li.addEventListener("click", () => {
+        alert("Você clicou em: " + item.nome);
+    });
+
+    menuLista.appendChild(li);
+});
+
+</script>
+
+</body>
+</html>

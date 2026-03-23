@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CheckLoja</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    display:flex;
+    height:100vh;
+    background:#141a3a;
+    color:white;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:250px;
+    background:linear-gradient(#6c79db,#7a2cbf);
+    display:flex;
+    flex-direction:column;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:20px;
+    border-bottom:1px solid rgba(255,255,255,0.3);
+}
+
+.profile i{
+    font-size:40px;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu li{
+    padding:15px 20px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    border-bottom:1px solid rgba(255,255,255,0.2);
+    cursor:pointer;
+}
+
+.menu li:hover{
+    background:rgba(255,255,255,0.15);
+}
+
+.exit-item{
+    padding:15px 20px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    border-top:1px solid rgba(255,255,255,0.2);
+    cursor:pointer;
+}
+
+.exit-item:hover{
+    background:rgba(255,255,255,0.15);
+}
+
+/* MAIN */
+.main{
+    flex:1;
+    padding:20px 40px;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:26px;
+    color:#8fa0ff;
+    margin-bottom:20px;
+}
+
+.content{
+    flex:1;
+}
+
+.section{
+    max-width:800px;
+    margin:auto;
+}
+
+.section h2{
+    margin:25px 0 10px;
+    font-size:20px;
+}
+
+.section ul{
+    list-style:disc;
+    padding-left:25px;
+    line-height:1.8;
+}
+
+/* BOTÃO */
+.next-btn{
+    position:absolute;
+    right:25px;
+    bottom:25px;
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:#8a7bff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.next-btn:hover{
+    background:#6c5cff;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <div class="profile">
+        <i class="fas fa-user-circle"></i>
+        <span>Nome...</span>
+    </div>
+
+    <ul class="menu">
+        <li><i class="fas fa-lock"></i> Lojas confiáveis</li>
+        <li><i class="fas fa-lightbulb"></i> Dicas</li>
+        <li><i class="fas fa-comment"></i> Contato</li>
+        <li><i class="fas fa-heart"></i> Favoritos</li>
+        <li><i class="fas fa-bell"></i> Notificações</li>
+        <li><i class="fas fa-exclamation-triangle"></i> Denúncia</li>
+    </ul>
+
+    <div class="exit-item"><i class="fas fa-sign-out-alt"></i> Sair</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <div class="header">
+        <div></div>
+        <div>CheckLoja</div>
+    </div>
+
+    <div class="content">
+        <div id="tela" class="section"></div>
+    </div>
+
+    <div class="next-btn" id="btn">
+        <i class="fas fa-arrow-right"></i>
+    </div>
+
+</div>
+
+<script type="module">
+
+/* ===== JSON (simulando arquivo externo) ===== */
+const dados = {
+  tela1: {
+    titulo: "DICAS",
+    secoes: [
+      {
+        titulo: "🔒 Antes de comprar",
+        itens: [
+          "Compre apenas em sites confiáveis.",
+          "Verifique se o site é seguro (https).",
+          "Pesquise a reputação da loja."
+        ]
+      },
+      {
+        titulo: "💳 Durante a compra",
+        itens: [
+          "Nunca informe senhas.",
+          "Prefira cartão virtual.",
+          "Desconfie de preços baixos."
+        ]
+      }
+    ]
+  },
+  tela2: {
+    titulo: "DICAS",
+    secoes: [
+      {
+        titulo: "📦 Depois da compra",
+        itens: [
+          "Guarde comprovantes.",
+          "Acompanhe o pedido.",
+          "Confira a troca."
+        ]
+      },
+      {
+        titulo: "🧠 Dicas extras",
+        itens: [
+          "Evite Wi-Fi público.",
+          "Use antivírus.",
+          "Não clique em links suspeitos."
+        ]
+      }
+    ]
+  }
+};
+
+/* ===== MÓDULO DE RENDERIZAÇÃO ===== */
+function renderizarTela(dadosTela){
+    const tela = document.getElementById("tela");
+    tela.innerHTML = "";
+
+    const h1 = document.createElement("h1");
+    h1.textContent = dadosTela.titulo;
+    h1.style.textAlign = "center";
+    tela.appendChild(h1);
+
+    dadosTela.secoes.forEach(secao => {
+        const h2 = document.createElement("h2");
+        h2.textContent = secao.titulo;
+
+        const ul = document.createElement("ul");
+
+        secao.itens.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            ul.appendChild(li);
+        });
+
+        tela.appendChild(h2);
+        tela.appendChild(ul);
+    });
+}
+
+/* ===== CONTROLE DE TELAS ===== */
+let telaAtual = 1;
+
+renderizarTela(dados.tela1);
+
+/* ===== EVENTO ===== */
+document.getElementById("btn").addEventListener("click", () => {
+    telaAtual = telaAtual === 1 ? 2 : 1;
+    renderizarTela(dados[`tela${telaAtual}`]);
+});
+
+</script>
+
+</body>
+</html>
+

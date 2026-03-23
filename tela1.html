@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>CheckLoja</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #262a5a;
+    color: white;
+}
+
+.topo {
+    background-color: #e6e6e6;
+    height: 60px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.topo h2 {
+    color: #7a6be6;
+}
+
+.container {
+    text-align: center;
+    margin-top: 80px;
+}
+
+h1 {
+    font-size: 40px;
+    margin-bottom: 60px;
+}
+
+.input-box {
+    width: 400px;
+    margin: 20px auto;
+    border-bottom: 2px solid white;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+}
+
+.input-box input::placeholder {
+    color: #9f7aea;
+}
+
+.botao button {
+    padding: 15px 40px;
+    border: none;
+    border-radius: 30px;
+    background-color: #ddd;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.botao button:hover {
+    background-color: #bbb;
+}
+
+#mensagem {
+    margin-top: 20px;
+    font-size: 18px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="topo">
+    <h2>CheckLoja</h2>
+</div>
+
+<div class="container">
+    <h1>Faça seu usuário</h1>
+
+    <div class="input-box">
+        <input id="usuario" type="text" placeholder="Nome de usuário">
+    </div>
+
+    <div class="input-box">
+        <input id="senha" type="password" placeholder="Senha do usuário">
+    </div>
+
+    <div class="botao">
+        <button id="btnEntrar">Entrar</button>
+    </div>
+
+    <p id="mensagem"></p>
+</div>
+
+<script type="module">
+
+/* =========================
+   JSON (dados simulados)
+========================= */
+const dados = {
+  "usuarios": [
+    { "nome": "admin", "senha": "123" },
+    { "nome": "maria", "senha": "456" }
+  ]
+};
+
+/* =========================
+   "MÓDULO" (organização)
+========================= */
+function carregarUsuarios() {
+    return dados.usuarios;
+}
+
+function verificarLogin(usuario, senha) {
+    const usuarios = carregarUsuarios();
+
+    return usuarios.find(u =>
+        u.nome === usuario && u.senha === senha
+    );
+}
+
+/* =========================
+   EVENTO + DINÂMICA
+========================= */
+document.getElementById("btnEntrar")
+.addEventListener("click", () => {
+
+    const usuario = document.getElementById("usuario").value;
+    const senha = document.getElementById("senha").value;
+    const mensagem = document.getElementById("mensagem");
+
+    const resultado = verificarLogin(usuario, senha);
+
+    if (resultado) {
+        mensagem.textContent = "Login realizado com sucesso!";
+        mensagem.style.color = "lightgreen";
+    } else {
+        mensagem.textContent = "Usuário ou senha incorretos!";
+        mensagem.style.color = "red";
+    }
+});
+
+</script>
+
+</body>
+</html>
